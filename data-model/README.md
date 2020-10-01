@@ -10,7 +10,7 @@ En este archivo SQL se encuentra el script que genera la base de datos de acuerd
 
 ## Solución de la consulta solicitada
 
-```
+```sql
 SELECT 
     v.plate AS `Placa del vehículo`,
     it.name AS `Tipo de identificación de la empresa`,
