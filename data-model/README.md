@@ -6,7 +6,7 @@
 
 ## Script para la generación de la base de datos
 
-En este archivo SQL se encuentra el script que genera la base de datos de acuerdo al modelo expuesto anteriormente
+En este [archivo SQL](https://github.com/karianov/transport-management/blob/master/data-model/erm-sql-script.sql) se encuentra el script que genera la base de datos de acuerdo al modelo expuesto anteriormente
 
 ## Solución de la consulta solicitada
 
