@@ -65,10 +65,10 @@ public class CompanyController {
 	@ApiOperation(value = "Create one company", notes = "REST service to insert new companies")
 	public ResponseEntity<CompanyEntity> createCompany(@RequestBody NewCompanyRequest createCompanyRequest) {
 		IdentificationTypeEntity nestedIdentificationType = identificationTypeRepo
-				.findByIdentificationTypeId(createCompanyRequest.getIdentificationTypeId());
-		CityEntity nestedCity = cityRepo.findByCityId(createCompanyRequest.getCityId());
+				.findByIdentificationTypeId(createCompanyRequest.getIdentificationType().getIdentificationTypeId());
+		CityEntity nestedCity = cityRepo.findByCityId(createCompanyRequest.getCity().getCityId());
 		PersonEntity nestedLegalRepresentative = personRepo
-				.findByPersonId(createCompanyRequest.getLegalRepresentativeId());
+				.findByPersonId(createCompanyRequest.getLegalRepresentative().getPersonId());
 		CompanyEntity companyToCreate = mapperService.map(createCompanyRequest, CompanyEntity.class);
 		companyToCreate.setIdentificationType(nestedIdentificationType);
 		companyToCreate.setCity(nestedCity);

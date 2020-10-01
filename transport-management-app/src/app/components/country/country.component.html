@@ -1,0 +1,58 @@
+<button
+  type="button"
+  class="btn btn-secondary"
+  data-toggle="collapse"
+  data-target="#countryBody"
+>
+  Crear más países
+</button>
+<div id="countryBody" class="collapse mt-3">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="countryForm" novalidate="novalidate">
+        <div class="md-form">
+          <label for="nameInput">Nombre del país</label>
+          <input
+            type="text"
+            id="nameInput"
+            class="form-control"
+            formControlName="name"
+            placeholder="Nombre del país"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="name.invalid && (name.dirty || name.touched)"
+          >
+            Campo requerido
+          </div>
+          <div
+            class="valid-feedback"
+            *ngIf="name.valid && (name.dirty || name.touched)"
+          >
+            Correcto
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row text-center mt-3">
+    <div class="col-12">
+      <button
+        type="button"
+        class="btn btn-primary mb-3"
+        [disabled]="!(name.valid && (name.dirty || name.touched))"
+        (click)="submit()"
+      >
+        Guardar país
+      </button>
+    </div>
+  </div>
+  <div class="spinner-border" *ngIf="loadingSubmit" role="status"></div>
+  <div class="alert alert-success" *ngIf="validSubmit" role="alert">
+    País creado con éxito
+  </div>
+  <div class="alert alert-danger" *ngIf="errorSubmit" role="alert">
+    Ocurrió un error al crear este país. Por favor compruebe los datos
+    ingresados.
+  </div>
+</div>

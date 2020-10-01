@@ -1,5 +1,7 @@
 package co.org.karianov.transportmanagementapi.model.request;
 
+import co.org.karianov.transportmanagementapi.model.entity.CityEntity;
+import co.org.karianov.transportmanagementapi.model.entity.IdentificationTypeEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +13,7 @@ public class NewPersonRequest {
 	private String fullName;
 	private String address;
 	private String phoneNumber;
-	private Integer identificationTypeId;
-	private Integer cityId;
+	private IdentificationTypeEntity identificationType;
+	private CityEntity city;
 	
 }

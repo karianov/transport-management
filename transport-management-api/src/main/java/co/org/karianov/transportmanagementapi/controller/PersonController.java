@@ -60,8 +60,8 @@ public class PersonController {
 	@ApiOperation(value = "Create one person", notes = "REST service to insert new people")
 	public ResponseEntity<PersonEntity> createPerson(
 			@RequestBody NewPersonRequest createPersonRequest) {
-		IdentificationTypeEntity nestedIdentificationType = identificationTypeRepo.findByIdentificationTypeId(createPersonRequest.getIdentificationTypeId());
-		CityEntity nestedCity = cityRepo.findByCityId(createPersonRequest.getCityId());
+		IdentificationTypeEntity nestedIdentificationType = identificationTypeRepo.findByIdentificationTypeId(createPersonRequest.getIdentificationType().getIdentificationTypeId());
+		CityEntity nestedCity = cityRepo.findByCityId(createPersonRequest.getCity().getCityId());
 		PersonEntity personToCreate = mapperService.map(createPersonRequest, PersonEntity.class);
 		personToCreate.setIdentificationType(nestedIdentificationType);
 		personToCreate.setCity(nestedCity);

@@ -1,5 +1,6 @@
 package co.org.karianov.transportmanagementapi.model.request;
 
+import co.org.karianov.transportmanagementapi.model.entity.CountryEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,6 @@ import lombok.Setter;
 public class NewDepartmentRequest {
 
 	private String name;
-	private Integer countryId;
+	private CountryEntity country;
 	
 }

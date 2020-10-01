@@ -54,7 +54,7 @@ public class DepartmentController {
 	@PostMapping
 	@ApiOperation(value = "Create one department", notes = "REST service to insert new departments")
 	public ResponseEntity<DepartmentEntity> createDepartment(@RequestBody NewDepartmentRequest createDepartmentRequest) {
-		CountryEntity nestedCountry = countryRepo.findByCountryId(createDepartmentRequest.getCountryId());
+		CountryEntity nestedCountry = countryRepo.findByCountryId(createDepartmentRequest.getCountry().getCountryId());
 		DepartmentEntity departmentToCreate = mapperService.map(createDepartmentRequest, DepartmentEntity.class);
 		departmentToCreate.setCountry(nestedCountry);
 		DepartmentEntity createdDepartment = departmentRepo.save(departmentToCreate);

@@ -1,7 +1,5 @@
 # Capa de presentación: Aplicación Web
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
-
 ## Consideraciones tecnológicas
 
 - Proyecto Angular con la versión 10.0.5.

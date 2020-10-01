@@ -55,7 +55,7 @@ public class CityController {
 	@ApiOperation(value = "Create one City", notes = "REST service to insert new Citys")
 	public ResponseEntity<CityEntity> createCity(
 			@RequestBody NewCityRequest createCityRequest) {
-		DepartmentEntity nestedDepartment = departmentRepo.findByDepartmentId(createCityRequest.getDepartmentId());
+		DepartmentEntity nestedDepartment = departmentRepo.findByDepartmentId(createCityRequest.getDepartment().getDepartmentId());
 		CityEntity cityToCreate = mapperService.map(createCityRequest, CityEntity.class);
 		cityToCreate.setDepartment(nestedDepartment);
 		CityEntity createdCity = cityRepo.save(cityToCreate);

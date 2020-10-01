@@ -1,0 +1,72 @@
+<button
+  type="button"
+  class="btn btn-secondary"
+  data-toggle="collapse"
+  data-target="#departmentBody"
+  (click)="reload()"
+>
+  Crear más departamentos
+</button>
+<div id="departmentBody" class="collapse mt-3">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="departmentForm" novalidate="novalidate">
+        <div class="md-form">
+          <label for="nameInput">Nombre del departamento</label>
+          <input
+            type="text"
+            id="nameInput"
+            class="form-control"
+            formControlName="name"
+            placeholder="Nombre del departamento"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="name.invalid && (name.dirty || name.touched)"
+          >
+            Campo requerido
+          </div>
+          <div
+            class="valid-feedback"
+            *ngIf="name.valid && (name.dirty || name.touched)"
+          >
+            Correcto
+          </div>
+        </div>
+        <div class="spinner-border" *ngIf="loadingPrevious" role="status"></div>
+        <div class="md-form" *ngIf="!loadingPrevious">
+          <label for="countryInput">País</label>
+          <select
+            class="form-control"
+            formControlName="country"
+            id="countryInput"
+          >
+            <option *ngFor="let country of countries" [ngValue]="country">
+              {{ country.name }}
+            </option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row text-center mt-3">
+    <div class="col-12">
+      <button
+        type="button"
+        class="btn btn-primary mb-3"
+        [disabled]="!(name.valid && (name.dirty || name.touched))"
+        (click)="submit()"
+      >
+        Guardar departamento
+      </button>
+    </div>
+  </div>
+  <div class="spinner-border" *ngIf="loadingSubmit" role="status"></div>
+  <div class="alert alert-success" *ngIf="validSubmit" role="alert">
+    Departamento creado con éxito
+  </div>
+  <div class="alert alert-danger" *ngIf="errorSubmit" role="alert">
+    Ocurrió un error al crear este departamento. Por favor compruebe los datos
+    ingresados.
+  </div>
+</div>

@@ -7,7 +7,7 @@ import { API_BASE_LOCATION } from '../../constants/constants';
 @Injectable({
   providedIn: 'root',
 })
-export class CityServiceService {
+export class CityService {
   private endpoint: string;
 
   constructor(private httpClient: HttpClient) {

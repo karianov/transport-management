@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS `transport_management_db`.`country` (
   `country_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(35) NOT NULL,
   PRIMARY KEY (`country_id`),
-  UNIQUE INDEX `country_id_UNIQUE` (`country_id` ASC) VISIBLE)
+  UNIQUE INDEX `country_id_UNIQUE` (`country_id` ASC) VISIBLE),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE
 ENGINE = InnoDB;
 
 
