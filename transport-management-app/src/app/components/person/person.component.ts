@@ -149,7 +149,7 @@ export class PersonComponent implements OnInit {
       address: this.address.value,
       phoneNumber: this.phoneNumber.value,
       identificationType: this.identificationType.value,
-      city: this.city.value
+      city: this.city.value,
     };
     this.personService
       .createPerson(newPerson)

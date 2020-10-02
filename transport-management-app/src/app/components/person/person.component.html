@@ -142,11 +142,19 @@
       </form>
     </div>
   </div>
+  <div class="spinner-border mt-3" *ngIf="loadingSubmit" role="status"></div>
+  <div class="alert alert-success mt-3" *ngIf="validSubmit" role="alert">
+    Persona creada con éxito
+  </div>
+  <div class="alert alert-danger mt-3" *ngIf="errorSubmit" role="alert">
+    Ocurrió un error al crear esta persona. Por favor compruebe los datos
+    ingresados.
+  </div>
   <div class="row text-center mt-3">
     <div class="col-12">
       <button
         type="button"
-        class="btn btn-primary mb-3"
+        class="btn btn-primary"
         [disabled]="
           !(
             identificationNumber.valid &&
@@ -158,13 +166,5 @@
         Guardar persona
       </button>
     </div>
-  </div>
-  <div class="spinner-border" *ngIf="loadingSubmit" role="status"></div>
-  <div class="alert alert-success" *ngIf="validSubmit" role="alert">
-    Persona creada con éxito
-  </div>
-  <div class="alert alert-danger" *ngIf="errorSubmit" role="alert">
-    Ocurrió un error al crear esta persona. Por favor compruebe los datos
-    ingresados.
   </div>
 </div>
