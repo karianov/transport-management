@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 
 import { Department } from 'src/app/models/api/department';
@@ -40,9 +46,7 @@ export class CityComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
       ]),
-      department: new FormControl(null, [
-        Validators.required
-      ])
+      department: new FormControl(null, [Validators.required]),
     });
   }
 
@@ -87,7 +91,7 @@ export class CityComponent implements OnInit {
     const newCity: City = {
       cityId: null,
       name: this.name.value,
-      department: this.department.value
+      department: this.department.value,
     };
     this.cityService
       .createCity(newCity)
@@ -106,5 +110,4 @@ export class CityComponent implements OnInit {
       );
     this.cityForm.reset();
   }
-  
 }
