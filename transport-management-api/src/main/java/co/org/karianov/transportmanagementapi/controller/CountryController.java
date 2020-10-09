@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.org.karianov.transportmanagementapi.jpa.repo.CountryRepo;
 import co.org.karianov.transportmanagementapi.model.entity.CountryEntity;
 import co.org.karianov.transportmanagementapi.model.request.NewCountryRequest;
-import co.org.karianov.transportmanagementapi.service.MapperService;
+import co.org.karianov.transportmanagementapi.service.CountryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -27,48 +26,38 @@ import io.swagger.annotations.ApiOperation;
 public class CountryController {
 
 	@Autowired
-	private CountryRepo countryRepo;
-
-	@Autowired
-	private MapperService mapperService;
+	private CountryService countryService;
 
 	@GetMapping("/{countryId}")
 	@ApiOperation(value = "Get one existing country", notes = "REST service to obtain one existing country")
 	public ResponseEntity<CountryEntity> getCountryById(@PathVariable Integer countryId) {
-		CountryEntity searchedCountry = countryRepo.findByCountryId(countryId);
-		return new ResponseEntity<CountryEntity>(searchedCountry, HttpStatus.OK);
+		return new ResponseEntity<CountryEntity>(countryService.findCountryById(countryId), HttpStatus.OK);
 	}
 
 	@GetMapping
 	@ApiOperation(value = "Get all existing countries", notes = "REST service to obtain all existing countries")
 	public ResponseEntity<List<CountryEntity>> getAllCountries() {
-		List<CountryEntity> allCountries = countryRepo.findAll();
-		return new ResponseEntity<List<CountryEntity>>(allCountries, HttpStatus.OK);
+		return new ResponseEntity<List<CountryEntity>>(countryService.findAllCountries(), HttpStatus.OK);
 	}
 
 	@PostMapping
 	@ApiOperation(value = "Create one country", notes = "REST service to insert new countries")
-	public ResponseEntity<CountryEntity> createCountry(@RequestBody NewCountryRequest createCountryRequest) {
-		CountryEntity countryToCreate = mapperService.map(createCountryRequest, CountryEntity.class);
-		CountryEntity createdCountry = countryRepo.save(countryToCreate);
-		return new ResponseEntity<CountryEntity>(createdCountry, HttpStatus.CREATED);
+	public ResponseEntity<CountryEntity> createCountry(@RequestBody NewCountryRequest newCountryRequest) {
+		return new ResponseEntity<CountryEntity>(countryService.saveCountry(newCountryRequest), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{countryId}")
 	@ApiOperation(value = "Update a country", notes = "REST service to update a searched country")
 	public ResponseEntity<CountryEntity> updateCountry(@PathVariable Integer countryId,
 			@RequestBody CountryEntity countryToUpdate) {
-		countryToUpdate.setCountryId(countryId);
-		CountryEntity updatedCountry = countryRepo.save(countryToUpdate);
-		return new ResponseEntity<CountryEntity>(updatedCountry, HttpStatus.OK);
+		return new ResponseEntity<CountryEntity>(countryService.updateCountry(countryId, countryToUpdate),
+				HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{countryId}")
 	@ApiOperation(value = "Delete a country", notes = "REST service to delete a searched country")
 	public ResponseEntity<CountryEntity> deleteCountry(@PathVariable Integer countryId) {
-		CountryEntity deletedCountry = countryRepo.findByCountryId(countryId);
-		countryRepo.deleteById(countryId);
-		return new ResponseEntity<CountryEntity>(deletedCountry, HttpStatus.OK);
+		return new ResponseEntity<CountryEntity>(countryService.deleteCountry(countryId), HttpStatus.OK);
 	}
 
 }

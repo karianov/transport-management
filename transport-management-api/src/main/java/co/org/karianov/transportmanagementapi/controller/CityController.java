@@ -13,14 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
-import co.org.karianov.transportmanagementapi.jpa.repo.CityRepo;
-import co.org.karianov.transportmanagementapi.jpa.repo.DepartmentRepo;
 import co.org.karianov.transportmanagementapi.model.entity.CityEntity;
-import co.org.karianov.transportmanagementapi.model.entity.DepartmentEntity;
 import co.org.karianov.transportmanagementapi.model.request.NewCityRequest;
-import co.org.karianov.transportmanagementapi.service.MapperService;
+import co.org.karianov.transportmanagementapi.service.CityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -30,73 +26,36 @@ import io.swagger.annotations.ApiOperation;
 public class CityController {
 
 	@Autowired
-	private CityRepo cityRepo;
-
-	@Autowired
-	private MapperService mapperService;
-
-	@Autowired
-	private DepartmentRepo departmentRepo;
+	private CityService cityService;
 
 	@GetMapping("/{cityId}")
 	@ApiOperation(value = "Get one existing city", notes = "REST service to obtain one existing city")
 	public ResponseEntity<CityEntity> getCityById(@PathVariable Integer cityId) {
-		CityEntity searchedCity = cityRepo.findByCityId(cityId);
-		if (searchedCity != null) {
-			return new ResponseEntity<CityEntity>(searchedCity, HttpStatus.OK);
-		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "City does not exist");
-		}
+		return new ResponseEntity<CityEntity>(cityService.findCityById(cityId), HttpStatus.OK);
 	}
 
 	@GetMapping
 	@ApiOperation(value = "Get all existing cities", notes = "REST service to obtain all existing cities")
 	public ResponseEntity<List<CityEntity>> getAllCities() {
-		List<CityEntity> allCities = cityRepo.findAll();
-		return new ResponseEntity<List<CityEntity>>(allCities, HttpStatus.OK);
+		return new ResponseEntity<List<CityEntity>>(cityService.findAllCities(), HttpStatus.OK);
 	}
 
 	@PostMapping
 	@ApiOperation(value = "Create one City", notes = "REST service to insert new Citys")
-	public ResponseEntity<CityEntity> createCity(@RequestBody NewCityRequest createCityRequest) {
-		try {
-			DepartmentEntity nestedDepartment = departmentRepo
-					.findByDepartmentId(createCityRequest.getDepartment().getDepartmentId());
-			CityEntity cityToCreate = mapperService.map(createCityRequest, CityEntity.class);
-			cityToCreate.setDepartment(nestedDepartment);
-			CityEntity createdCity = cityRepo.save(cityToCreate);
-			return new ResponseEntity<CityEntity>(createdCity, HttpStatus.CREATED);
-		} catch (Exception exception) {
-			System.out.println(exception);
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-					"This city was not able to save due to input values.");
-		}
+	public ResponseEntity<CityEntity> createCity(@RequestBody NewCityRequest newCityRequest) {
+		return new ResponseEntity<CityEntity>(cityService.saveCity(newCityRequest), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{cityId}")
 	@ApiOperation(value = "Update a city", notes = "REST service to update a searched city")
 	public ResponseEntity<CityEntity> updateCity(@PathVariable Integer cityId, @RequestBody CityEntity cityToUpdate) {
-		cityToUpdate.setCityId(cityId);
-		try {
-			CityEntity updatedCity = cityRepo.save(cityToUpdate);
-			return new ResponseEntity<CityEntity>(updatedCity, HttpStatus.OK);
-		} catch (Exception exception) {
-			System.out.println(exception);
-			throw new ResponseStatusException(HttpStatus.CONFLICT,
-					"This city was not able to update due to existing values.");
-		}
+		return new ResponseEntity<CityEntity>(cityService.updateCity(cityId, cityToUpdate), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{cityId}")
 	@ApiOperation(value = "Delete a city", notes = "REST service to delete a searched city")
 	public ResponseEntity<CityEntity> deleteCity(@PathVariable Integer cityId) {
-		try {
-			CityEntity deletedCity = cityRepo.findByCityId(cityId);
-			cityRepo.deleteById(cityId);
-			return new ResponseEntity<CityEntity>(deletedCity, HttpStatus.OK);
-		} catch (Exception exception) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This city was not able to delete.");
-		}
+		return new ResponseEntity<CityEntity>(cityService.deleteCity(cityId), HttpStatus.OK);
 	}
 
 }
