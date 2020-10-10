@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `transport_management_db`.`country` (
   `name` VARCHAR(35) NOT NULL,
   PRIMARY KEY (`country_id`),
   UNIQUE INDEX `country_id_UNIQUE` (`country_id` ASC) VISIBLE),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `transport_management_db`.`user` (
   PRIMARY KEY (`user_id`, `fk_person_id`),
   UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) VISIBLE,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
-  INDEX `fk_user_person1_idx` (`fk_person_id` ASC) VISIBLE,
+  INDEX `fk_user_person_idx` (`fk_person_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_person`
     FOREIGN KEY (`fk_person_id`)
     REFERENCES `transport_management_db`.`person` (`person_id`)
