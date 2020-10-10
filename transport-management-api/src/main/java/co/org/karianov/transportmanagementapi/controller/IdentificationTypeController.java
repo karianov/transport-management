@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.org.karianov.transportmanagementapi.jpa.repo.IdentificationTypeRepo;
 import co.org.karianov.transportmanagementapi.model.entity.IdentificationTypeEntity;
 import co.org.karianov.transportmanagementapi.model.request.NewIdentificationTypeRequest;
-import co.org.karianov.transportmanagementapi.service.MapperService;
+import co.org.karianov.transportmanagementapi.service.IdentificationTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -27,48 +26,46 @@ import io.swagger.annotations.ApiOperation;
 public class IdentificationTypeController {
 
 	@Autowired
-	private IdentificationTypeRepo identificationTypeRepo;
-	
-	@Autowired
-	private MapperService mapperService;
+	private IdentificationTypeService identificationTypeService;
 
 	@GetMapping("/{identificationTypeId}")
 	@ApiOperation(value = "Get one existing identification type", notes = "REST service to obtain one existing identification type")
-	public ResponseEntity<IdentificationTypeEntity> getIdentificationTypeById(@PathVariable Integer identificationTypeId) {
-		IdentificationTypeEntity searchedIdentificationType = identificationTypeRepo.findByIdentificationTypeId(identificationTypeId);
-		return new ResponseEntity<IdentificationTypeEntity>(searchedIdentificationType, HttpStatus.OK);
+	public ResponseEntity<IdentificationTypeEntity> getIdentificationTypeById(
+			@PathVariable Integer identificationTypeId) {
+		return new ResponseEntity<IdentificationTypeEntity>(
+				identificationTypeService.findIdentificationTypeById(identificationTypeId), HttpStatus.OK);
 	}
 
 	@GetMapping
 	@ApiOperation(value = "Get all existing identification types", notes = "REST service to obtain all existing identification types")
 	public ResponseEntity<List<IdentificationTypeEntity>> getAllIdentificationTypes() {
-		List<IdentificationTypeEntity> allIdentificationTypes = identificationTypeRepo.findAll();
-		return new ResponseEntity<List<IdentificationTypeEntity>>(allIdentificationTypes, HttpStatus.OK);
+		return new ResponseEntity<List<IdentificationTypeEntity>>(
+				identificationTypeService.findAllIdentificationTypes(), HttpStatus.OK);
 	}
 
 	@PostMapping
 	@ApiOperation(value = "Create one identification type", notes = "REST service to insert new identification types")
-	public ResponseEntity<IdentificationTypeEntity> createIdentificationType(@RequestBody NewIdentificationTypeRequest createIdentificationTypeRequest) {
-		IdentificationTypeEntity identificationTypeToCreate = mapperService.map(createIdentificationTypeRequest, IdentificationTypeEntity.class);
-		IdentificationTypeEntity createdIdentificationType = identificationTypeRepo.save(identificationTypeToCreate);
-		return new ResponseEntity<IdentificationTypeEntity>(createdIdentificationType, HttpStatus.CREATED);
+	public ResponseEntity<IdentificationTypeEntity> createIdentificationType(
+			@RequestBody NewIdentificationTypeRequest newIdentificationTypeRequest) {
+		return new ResponseEntity<IdentificationTypeEntity>(
+				identificationTypeService.saveIdentificationType(newIdentificationTypeRequest), HttpStatus.OK);
 	}
 
 	@PutMapping("/{identificationTypeId}")
 	@ApiOperation(value = "Update an identification type", notes = "REST service to update a searched identification type")
 	public ResponseEntity<IdentificationTypeEntity> updateIdentificationType(@PathVariable Integer identificationTypeId,
 			@RequestBody IdentificationTypeEntity identificationTypeToUpdate) {
-		identificationTypeToUpdate.setIdentificationTypeId(identificationTypeId);
-		IdentificationTypeEntity updatedIdentificationType = identificationTypeRepo.save(identificationTypeToUpdate);
-		return new ResponseEntity<IdentificationTypeEntity>(updatedIdentificationType, HttpStatus.OK);
+		return new ResponseEntity<IdentificationTypeEntity>(
+				identificationTypeService.updateIdentificationType(identificationTypeId, identificationTypeToUpdate),
+				HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{identificationTypeId}")
 	@ApiOperation(value = "Delete an identification type", notes = "REST service to delete a searched identification type")
-	public ResponseEntity<IdentificationTypeEntity> deleteIdentificationType(@PathVariable Integer identificationTypeId) {
-		IdentificationTypeEntity deletedIdentificationType = identificationTypeRepo.findByIdentificationTypeId(identificationTypeId);
-		identificationTypeRepo.deleteById(identificationTypeId);
-		return new ResponseEntity<IdentificationTypeEntity>(deletedIdentificationType, HttpStatus.OK);
+	public ResponseEntity<IdentificationTypeEntity> deleteIdentificationType(
+			@PathVariable Integer identificationTypeId) {
+		return new ResponseEntity<IdentificationTypeEntity>(
+				identificationTypeService.deleteIdentificationType(identificationTypeId), HttpStatus.OK);
 	}
-	
+
 }
